@@ -1,5 +1,5 @@
 荣少秒射咖啡佬
- wget  -c  http://104.244.94.110:8081/jenkinsnew222.tar   下载
+ wget  -c  ccr.ccs.tencentyun.com/hzrdockerfile/jenkinslts   下载
 
 docker  load < jenkinsnew222.tar    运行
 
@@ -14,3 +14,7 @@ admin217
 关机后
 要重启jenkins
 docker start jenkins
+
+
+
+docker run -it  --name=dushaoxihuanxiaojj   -p 8080:8080 ccr.ccs.tencentyun.com/hzrdockerfile/jenkinslts
