@@ -1,4 +1,4 @@
-# -*- mode: ruby -*-
+d# -*- mode: ruby -*-
 # vi: set ft=ruby :
 $script = <<SCRIPT
    (echo 'admin217'; sleep 1; echo 'admin217') | sudo passwd 'root'
