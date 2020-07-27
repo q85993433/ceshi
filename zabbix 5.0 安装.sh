@@ -42,9 +42,9 @@ e. 为Zabbix server配置数据库
 
 DBPassword=password
 f. 为Zabbix前端配置PHP
-编辑配置文件 /etc/opt/rh/rh-php72/php-fpm.d/zabbix.conf, uncomment and set the right timezone for you.
+编辑配置文件 /etc/opt/rh/rh-php72/php-fpm.d/zabbix.conf
 
-; php_value[date.timezone] = Europe/Riga
+php_value[date.timezone] = Asia/Shanghai
 g. 启动Zabbix server和agent进程
 启动Zabbix server和agent进程，并为它们设置开机自启：
 
