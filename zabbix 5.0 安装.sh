@@ -53,7 +53,10 @@ g. 启动Zabbix server和agent进程
 h. 配置Zabbix前端
 连接到新安装的Zabbix前端： http://server_ip_or_name/zabbix
 根据Zabbix文件里步骤操作： Installing frontend
-账号  Admin   密码zabbix        
+账号  Admin   密码zabbix   
+Database host hostname 
+
+database host 127.0.0.1     
 
 安装有问题问题有缺少的需求 libmysqlclient.so.18()(64bit)
 
