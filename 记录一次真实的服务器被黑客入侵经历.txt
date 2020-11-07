@@ -1,0 +1,198 @@
+记录一次真实的服务器被黑客入侵经历
+
+
+
+2020年4月6日凌晨，我收到一条来自腾讯云的短信：
+
+【腾讯云】安全提醒:您的服务器172.21.x.x(账号ID:xxxxx instance-id:ins-xxxxxx[未命名] 地域:北京)检测到来自 61.219.255.x 的暴力破解事件，破解状态：破解成功。您的服务器疑似被黑客入侵，请即刻前往主机安全控制台查看详细信息并参照：http://url.cn/5AnEx6J ，进行处理
+
+
+记录一次真实的服务器被黑客入侵经历
+我的服务器被入侵了？ 我看了一下，发现这个服务器是我个人的一台闲置服务器，以前搭建过一个wordpress 测试了下而已, 这台服务器当时并没有设置秘钥登录，允许了密码登录并且是root用户。
+
+我开始想过直接重装系统，但是出于技术人心里的一点倔强和好奇决定查看一下。
+
+
+
+1、我连上服务器之后先执行了 w 命令看了下，除了我之外没有别IP在连服务器！(当时忘了截图) ，执行 history 命令 没有查到 异常的记录, 在 .bash_history 也没有查到 。
+
+
+
+2、然后查了下 /var/log/secure 日志，发现密码确实被攻破了(我把日志中的IP最后一段换成了x)：
+
+
+Apr  6 00:19:48 VM_0_5_centos sshd[22197]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=61.219.255.x  user=root 
+
+Apr  6 00:19:50 VM_0_5_centos sshd[22197]: Failed password for root from 61.219.255.x port 53319 ssh2 
+
+Apr  6 00:19:51 VM_0_5_centos sshd[22197]: Connection closed by 61.219.255.x port 53319 [preauth] 
+
+Apr  6 00:19:54 VM_0_5_centos sshd[22210]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=61.219.255.x  user=root 
+
+Apr  6 00:19:56 VM_0_5_centos sshd[22210]: Failed password for root from 61.219.255.x port 48948 ssh2 
+
+Apr  6 00:19:56 VM_0_5_centos sshd[22210]: Connection closed by 61.219.255.x port 48948 [preauth] 
+
+Apr  6 00:19:57 VM_0_5_centos sshd[22220]: Accepted password for root from 61.219.255.x port 14542 ssh2
+
+
+可以看到 最下面那一条： Accepted password for root from 61.219.255.x 说明他破解了我的密码
+
+
+
+接下来我发现了一个可怕的事情，这个黑客简直是高手。
+
+
+
+他不但破解了我的密码，还在root 用户下.ssh/authorized_keys 添加了他的公钥，而且还新建了一个普通用户，同样也加了公钥 。我尝试清除掉他的公钥，提示我无法保存。我可是root 用户啊，作为一个运维人员，很快会意识到文件被加锁了。
+
+[root@VM_0_5_centos ~]# lsattr .ssh/authorized_keys
+-----i------- .ssh/authorized_keys  
+ 
+ #果然被加锁了 ，需要先解锁再修改   
+ 
+ [root@VM_0_5_centos ~]# chattr -i  .ssh/authorized_keys
+ 
+ #然后用同样的方法解锁黑客新建用户的认证文件，然后删掉他新建的用户
+
+
+3、我马上修改sshd的配置文件，包括 拒绝密码认证和拒绝root直接ssh, 创建一个新用户并添加我的公钥
+
+vi  /etc/ssh/sshd_config
+
+#禁止密码认证
+PasswordAuthentication no    
+
+#禁止root用户直接ssh到服务器
+PermitRootLogin no   
+
+#公钥的位置  
+AuthorizedKeysFile .ssh/authorized_keys   
+
+#然后重启sshd 服务  
+
+#再创建一个用户dfzz, 并授权sudo all，也可以只授权某个命令，看自己需要喽 
+
+visudo
+dfzz    ALL=(ALL)       NOPASSWD: ALL
+
+
+4、 用户检查完了，sshd也重启了，我开始检查有没有恶意进程
+
+记录一次真实的服务器被黑客入侵经历
+果然还是没放过我啊，这个wordpress 进程并不是我之前自己测试的wordpress，我之前是 lnmp+ wordpress ，并没有叫wordpress的进程。
+
+我kill 掉 这个进程，并删除了这个文件
+
+
+
+然后用 netstat -lntup 查了一下 有没有异常的服务 端口
+
+#查到了一个，但是忘记截图也忘记复制了。。。
+
+#这个进程的pid是13747 , 查看pid对应的目录
+ls -l  /proc/13747  
+
+#目录下有一个exe 对应的文件就是程序执行文件，删掉它，然后 kill掉进程
+
+
+5、检查一下 /etc/hosts 因为黑客经常 入侵服务器 经常会修改 hosts 文件
+
+记录一次真实的服务器被黑客入侵经历
+呵呵，还真是。 我修改的时候同样提示权限不足，还是先解锁再修改。
+
+
+
+6、 我又检查了一下定时任务，因为黑客经常会修改定时任务，你删掉他们的程序定时又会启动，可结果却是定时任务正常，没有被修改, 我有点诧异，难道这就结束了？
+
+
+
+好，那我重启一下系统看看！
+
+
+
+果然，没我想的这么简单！
+
+重启后发现 /etc/hosts 又被加了一大推， root 用户的authorized_keys 又被加了黑客的公钥，而且我新建的那个dfzz 用户 也被加了他的公钥，当然这三个文件也被加了锁，真的厉害！
+
+
+
+我先给这三个文件解锁，去掉了被修改的内容
+
+
+
+又查看了下进程，发现刚才kill的那两个进程不出所料的又启动了。
+
+
+
+我还是先kill掉这两个 进程 并删除 执行文件
+
+
+
+接下来查一下开机启动文件：
+
+chkconfig --list  
+#有一个可以的开机启动进程，但还并不能确定就是这个，好像叫 jexce ，忘记截图了。
+
+我先取消掉这个进程的开机启动，
+
+又检查了下 /etc/rc.d/init.d 目录，发现了很多可疑的脚本文件，统统删掉！ 同样提示权限不足，还是先解锁  
+
+[root@VM_0_5_centos ~]# chattr -i    /etc/rc.d/init.d/watchdogs 
+[root@VM_0_5_centos ~]# chattr -i    /etc/rc.d/init.d/selinux  
+[root@VM_0_5_centos ~]# chattr -i    /etc/rc.d/init.d/pdflushs 
+[root@VM_0_5_centos ~]# chattr -i    /etc/rc.d/init.d/DbSecuritySp  
+
+然后删掉这些文件  
+
+然后再看一下有没有 systemd管理的服务有开机自启的 
+systemctl list-unit-files|grep enabled    
+没有发现异常
+
+
+然后检查一下 /etc/rc.d/rc.local 也正常，凡是开机启动的都检查一遍！
+
+
+
+然后给 chattr 暂时改个名，要不老被锁
+
+mv /usr/bin/chattr  /usr/local/bin/qweasdzxc
+#我让你给我再加锁 ？
+# 自己改的名字一定要记住， 或者一会再改回来
+
+
+好，现在发现了一个可疑的开机自启的文件，又删掉了一些可疑脚本，再重启试一下 !
+
+
+
+我抱着激动的心情 输入 了 reboot 命令
+
+
+
+。。。。。。 无法连接服务器！
+
+
+
+我回头看了一下，刚才删除文件的时候，误删了一个文件 /etc/rc.d/init.d/functions 导致系统重启起不来了！ 由于我这个服务器不重要。。。当时这个服务器 没有做镜像和快照！
+
+
+
+只能重装系统！
+
+
+
+这篇文章是在系统重装后写的 ，有的地方可能有遗漏，并没有完美的解决此次被黑客入侵，当做一次教训记录下来。
+
+
+
+黑客的手法很高明，我们只能更加小心，一点都不能疏忽大意。
+
+
+
+亡羊补牢的措施：
+
+1、 服务器绝对不允许密码认证登录
+
+2、 禁止 root 用户直接ssh 登录
+
+3、 如果公司的IP是固定的，可以对ssh做IP限制，或者做一个vpn服务，总之通过固定IP去ssh就可以限制IP了，这样是最安全的

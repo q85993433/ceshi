@@ -33,3 +33,54 @@ root 7 07/16/12 15:18:22 tty1
 
 [root@node100 pam.d]# pam_tally2 -r -u root  
 Login Failures Latest failure From  
+
+
+
+
+查看状态：
+
+systemctl status sshd.service
+启动服务：
+
+systemctl start sshd.service
+重启服务：
+
+systemctl restart sshd.service
+开机自启：
+
+systemctl enable sshd.service
+
+
+
+
+cat /var/log/secure |grep "Failed password"      撞我密码
+
+
+ lsof -i |grep ^trojan     查看连接
+
+
+ pstree -p `ps aux| grep 进程名字 | grep -v grep| awk '{print$2}'`
+
+crontab -e   定时任务
+
+系统管理员若想知道某一时刻用户的行为，只需要输入命令w即可
+当登陆系统用户很多的时候，可以在W后面加上某个用户名，则会查看该用户执行任务的情况
+last命令  查看用户登录历史
+
+history  查看历史命令
+
+
+安全建议
+1.禁用root
+2.用户名和密码尽量复杂
+3.修改ssh的默认22端口
+4.安装denyhosts防暴力破解软件
+5.禁用密码登录，使用RSA公钥登录
+
+redis
+1.禁用公网IP监听，包括0.0.0.0
+2.使用密码限制访问redis
+3.使用较低权限账号运行redis
+
+
+先停crond  再清crond       
