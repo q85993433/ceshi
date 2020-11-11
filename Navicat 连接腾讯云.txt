@@ -1,0 +1,39 @@
+Navicat 连接腾讯云
+
+
+1.dos窗口下进入mysql，进行远程登录授权
+
+(1)进行授权
+
+mysql>GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '123456' WITH GRANT OPTION;
+
+
+注意：
+
+*.*       第一个*表示库，第二个*表示表; *.*对全部数据库的全部表授权
+root    表示要给哪个用户授权，这个用户可以是存在的用户，也可以是不存在的
+'%'      表示允许远程连接的IP地址，%代表允许所有IP连接
+'123456'  是设置授权用户的连接密码
+
+(2)flush privileges;  代表立即刷新权限表，使添加的用户生效 
+
+
+
+2.设置腾讯云安全组规则
+
+(1)打开腾讯云“安全组”
+https://console.cloud.tencent.com/cvm/securitygroup
+
+(2)点击新建，出于安全考虑，选择开放部分端口或自定义
+
+(3)入站规则 - 添加规则，输入如下值
+
+
+
+
+
+3.Navicat连接远程数据库设置
+
+
+
+参考文献：https://blog.csdn.net/yan13507001470/article/details/75675999
