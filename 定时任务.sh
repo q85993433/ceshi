@@ -58,3 +58,24 @@ echo  'xiaojiejie'  #  退出按ctl+d
 3. at 23:39 3/14/2020       shutdown   
 4.查询atq 或at -l             
 5.取消没执行atrm 编号 
+
+举例1：
+
+要求2020年6月8日晚上20点，关闭mysql后，关闭服务器
+
+at 20:00 2020-06-08
+
+at>/etc/init/mysql stop ; poweroff
+
+at> <EOT>
+
+举例2：
+
+要求10分钟后，执行脚本/root/test.sh
+
+at -f /root/test.sh now +10min
+
+
+
+每天定时重启服务器
+59 23 * * * /sbin/reboot
