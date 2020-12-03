@@ -1,0 +1,12 @@
+华为S2710 打开snmp
+
+
+system-view
+snmp-agent 
+snmp-agent community read 10056S2700  //设置团体名为10056S2700
+snmp-agent sys-info version all 
+snmp-agent target-host inform address udp-domain 192.168.0.224 udp-port 161 params securityname 10056S2700 v2c
+snmp-agent trap enable 
+
+
+//192.168.0.224    zabbix 服务器地址   打开端口161
