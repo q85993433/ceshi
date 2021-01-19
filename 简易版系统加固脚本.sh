@@ -1,5 +1,4 @@
-#!/bin/env bash
-
+#!/bin/bash
 # 修改ssh端口为20022
 ssh_Port=20022
 sed -i s/"#Port 22"/"Port $ssh_Port"/g /etc/ssh/sshd_config

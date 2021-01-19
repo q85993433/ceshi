@@ -23,7 +23,7 @@ CentOS7 yum方式安装MySQL5.7
 此时MySQL已经开始正常运行，不过要想进入MySQL还得先找出此时root用户的密码，通过如下命令可以在日志文件中找出密码：
 [root@localhost ~]# grep "password" /var/log/mysqld.log     找出日志密码
 如下命令进入数据库：
-
+提示YES  进不到数据库  就systemctl restart mysqld.service
 [root@localhost ~]# mysql -uroot -p
 
   输入初始密码，此时不能做任何事情，因为MySQL默认必须修改密码之后才能操作数据库：
