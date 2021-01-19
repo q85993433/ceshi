@@ -1,3 +1,4 @@
+#!/bin/bash
 CentOS 7
 必须语言英文
 Centos 7 而改为使用/etc/locale.conf这个来进行语言配置。使用vim命令进去，vim /etc/locale.conf，把zh_CN.UTF-8""替换成"en_US.UTF-8" 

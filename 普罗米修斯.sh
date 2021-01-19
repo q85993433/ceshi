@@ -1,3 +1,4 @@
+#!/bin/bash
 配置环境变量
 
 添加/usr/loacl/go/bin目录到PATH变量中。添加到/etc/profile 或$HOME/.profile都可以
