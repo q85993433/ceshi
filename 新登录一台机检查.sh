@@ -17,7 +17,7 @@ last  #命令用于查看当前和过去登录系统用户的相关信息
 ifconfig #网络
 lsof -i     #端口              lsof-i:22   22端口
 netstat -anp    #网络连接
-rmp -qa #查看安装软件
+rpm -qa #查看安装软件
 ps-ef   ps aux    systemctl #显示进程和服务
 dmesg | tail -20 #dmesg的最后20行日志
 dmesg | head -20   #dmesg命令的前20行日志
