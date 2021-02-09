@@ -15,7 +15,7 @@ go version//查看是否安装成功
 wget https://github.com/prometheus/prometheus/releases/download/v2.24.1/prometheus-2.24.1.linux-amd64.tar.gz
 tar -C /usr/local/ -xvf prometheus-2.24.1.linux-amd64.tar.gz
 ln -sv /usr/local/prometheus-2.24.1.linux-amd64/ /usr/local/prometheus     //做个软链接
-/usr/local/Prometheus/prometheus --config.file=/usr/local/Prometheus/prometheus.yml &   //启动验证是否安装成功
+nohup /usr/local/Prometheus/prometheus --config.file=/usr/local/Prometheus/prometheus.yml &   //启动验证是否安装成功
 
 #浏览器打开： http://ip:9090/   查看是否正常进行验证
 
@@ -59,3 +59,12 @@ vim /usr/local/Prometheus/prometheus.yml
 #改完配置文件后,重启服务
 pkill prometheus
 /usr/local/Prometheus/prometheus --config.file=/usr/local/Prometheus/prometheus.yml &
+
+
+
+
+如果没有任何显示，是grafana缺少相关显示需要用到的插件piechart，grafana的默认插件目录是/var/lib/grafana/plugins，可以将下载好的插件解压到这个目录，重启grafana即可
+piechart插件：
+链接：https://pan.baidu.com/s/1tvZWI9vhAqvJhojKmDlmew 提取码：tlyl
+service grafana-server restart
+/usr/sbin/grafana-cli plugins ls  #查看已安装插件

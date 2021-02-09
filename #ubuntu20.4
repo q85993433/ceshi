@@ -1,0 +1,59 @@
+#ubuntu20.4
+
+#1修改root 密码
+sudo passwd root
+
+#2在Ubuntu上打开SSH服务
+sudo apt-get install openssh-client
+sudo apt-get install openssh-server
+sudo ps -e | grep ssh
+#出现 sshd 说明已经启动
+#启动、停止、重启服务
+sudo service ssh start           # 启动
+sudo service ssh stop            # 停止
+sudo service ssh restart         # 重启
+#配置ssh
+sudo vi /etc/ssh/sshd_config
+
+#3如何在Ubuntu 20.04上安装Zabbix Agent？
+要求您必须具有对您的Ubuntu 20.04 LTS系统的sudo特权帐户访问权限的shell访问权限。
+配置Zabbix存储库
+wget https://repo.zabbix.com/zabbix/5.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_5.0-1+focal_all.deb
+sudo dpkg -i zabbix-release_5.0-1+focal_all.deb
+在Ubuntu上安装Zabbix Agent
+在系统中成功添加Zabbix apt存储库后，让我们使用以下命令通过以下命令安装Zabbix Agent。
+sudo apt update
+sudo apt install zabbix-agent
+接下来，您需要配置Zabbix Agent以允许来自Zabbix服务器的连接。例如，您的Zabbix服务器使用192.168.10.254 IP地址运行。要对此进行更新，请编辑Zabbix Agent配置文件/etc/zabbix/zabbix_agentd.conf：
+sudo nano /etc/zabbix/zabbix_agentd.conf 
+# zabbix 服务端地址
+Server=10.10.2.60
+# zabbix活动服务器地址
+ServerActive=10.10.2.60
+# 主机名，填本机IP
+Hostname=客户端IP
+保存文件并关闭它。
+Ctrl + s 保存
+Ctrl + x 退出
+
+现在，重新启动Zabbix服务以应用更改。同时启用服务以在系统启动时自动启动。运行以下命令以重新启动并启用Zabbix Agent服务。
+
+sudo systemctl restart zabbix-agent
+
+sudo systemctl enable zabbix-agent
+
+以下命令用于停止和状态Zabbix Agent服务：
+
+sudo systemctl stop zabbix-agent
+
+sudo systemctl status zabbix-agent
+
+
+#在Ubuntu下的prometheus环境中安装node_exporter
+wget https://github.com/prometheus/node_exporter/releases/download/v1.0.1/node_exporter-1.0.1.linux-amd64.tar.gz
+tar -xzf  node_exporter-1.0.1.linux-amd64.tar.gz
+sudo cp  node_exporter-1.0.1.linux-amd64/node_exporter /usr/local/bin/
+node_exporter --version
+运行Node Exporter
+nohup node_exporter --collector.textfile.directory /var/lib/
+

@@ -10,10 +10,14 @@ alerting:
   alertmanagers:
   - static_configs:
     - targets:
+       - 127.0.0.1:9093
+
+rule_files:
+  - "/opt/prometheus/rules/node_down.yml"
       # - alertmanager:9093
 
 # Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
-rule_files:
+#rule_files:
   # - "first_rules.yml"
   # - "second_rules.yml"
 
@@ -30,7 +34,8 @@ scrape_configs:
     - targets: ['localhost:9090'] 
   - job_name: 'agent1'
     static_configs:
-    - targets: ['192.168.0.220:9100','192.168.0.11:9100']
+    - targets: ['192.168.0.220:9100','192.168.1.76:9100']
   - job_name: 'windows'
     static_configs:
-    - targets: ['10.10.40.251:9182','10.10.40.233:9182']
+    - targets: ['10.10.40.251:9182']
+
