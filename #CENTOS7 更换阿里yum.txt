@@ -1,0 +1,23 @@
+#CENTOS7 更换阿里yum
+
+1、进入yum.repos.d，并备份
+
+[root@node01 ~]# cd /etc/yum.repos.d/
+[root@node01 yum.repos.d]# cp CentOS-Base.repo CentOS-Base.repo.bak
+
+2、wget下载阿里yum源repo文件
+
+[root@node01 yum.repos.d]# wget http://mirrors.aliyun.com/repo/Centos-7.repo
+
+3、清理旧包
+
+[root@node01 yum.repos.d]# yum clean all
+
+4、设置阿里云repo文件成为默认源
+
+[root@node01 yum.repos.d]# mv Centos-7.repo CentOS-Base.repo
+
+5、生成阿里云yum源缓存并更新yum源
+
+[root@node01 yum.repos.d]# yum makecache
+[root@node01 yum.repos.d]# yum update

@@ -15,6 +15,21 @@ sudo service ssh restart         # 重启
 #配置ssh
 sudo vi /etc/ssh/sshd_config
 
+设置root用户登录
+修改openssh server配置
+vim /etc/ssh/sshd_config	（root用户下）
+sudo vim /etc/ssh/sshd_config	(普通用户下)
+
+修改PermitRootLogin 这行，改为PermitRootLogin yes
+ 32 #PermitRootLogin prohibit-password
+ 33 PermitRootLogin yes
+
+ 解释说明
+
+PermitRootLogin yes   #允许root用户以任何认证方式登录
+PermitRootLogin without-password  #只允许root用public key认证方式登录
+PermitRootLogin no   #不允许root用户以任何认证方式登录
+
 #3如何在Ubuntu 20.04上安装Zabbix Agent？
 要求您必须具有对您的Ubuntu 20.04 LTS系统的sudo特权帐户访问权限的shell访问权限。
 配置Zabbix存储库
@@ -57,3 +72,28 @@ node_exporter --version
 运行Node Exporter
 nohup node_exporter --collector.textfile.directory /var/lib/
 
+#Ubuntu更换阿里云软件源
+
+Ubuntu更换阿里云软件源
+1. 备份
+sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak 
+2.修改
+sudo vim /etc/apt/sources.list
+将source.list文件内容替换成下面的
+
+deb http://mirrors.aliyun.com/ubuntu/ trusty main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ trusty-security main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ trusty-updates main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ trusty-proposed main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ trusty-backports main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ trusty main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ trusty-security main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ trusty-updates main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ trusty-proposed main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ trusty-backports main restricted universe multiverse
+3. 更新
+sudo apt-get update
+
+
+ubuntu安装VIM
+sudo apt install vim

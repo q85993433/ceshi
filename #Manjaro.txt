@@ -1,0 +1,161 @@
+#Manjaro
+
+ManjaroLinux常用命令
+systemctl -a 查看所有服务列表
+systemctl -l 查看活动服务列表
+
+pacman -Syu 更新系统上所有的包
+pacman -Syy 更新软件包缓存
+
+sudo pacman -Syu
+sudo pacman -S openssh
+开机自启sshd服务
+sudo systemctl enable sshd
+#启动/开机自启/重启服务
+systemctl start sshd.service
+systemctl enable sshd.service
+systemctl restart sshd.service
+允许root用户远程登录
+sudo vim /etc/ssh/sshd_config
+调整PermitRootLogin参数值为yes
+
+安装vim
+sudo pacman -S vim
+
+mount挂载磁盘并设置开机自动mount
+fdisk -l                       # 查看可挂载的磁盘
+df -h                          # 查看已经挂载的磁盘
+mkfs.ext4 /dev/vdb             # 初始化磁盘,格式是ext4,注意这里会格式化可挂载磁盘
+mount /dev/vdb /u01            # mount 磁盘到/u01，保证/u01为空
+blkid                          # 获取磁盘的uuid和属性，用uuid来进行开机mount
+vim /etc/fstab                 # 开机mount，模板是UUID=********** /u01  ext4  defaults  1 1
+
+第一步先 fdisk -l ，查看可挂载的磁盘都有哪些
+这时候再df -h  查看已经挂载了哪些磁盘
+c. 分区命令：
+fdisk  /dev/sdb
+常用命令：
+    n：创建新分区
+    d：删除已有分区
+    t：修改分区类型
+    l：查看所有支持的类型
+        p：显示现有分区信息
+    w：保存并退出
+    q：不保存并退出
+    m：查看帮助信息
+
+d. 创建分区：
+fdisk  /dev/sdb
+ Command (m for help): n
+Partition type:
+   p   primary (2 primary, 0 extended, 2 free)
+   e   extended
+Select (default p): p
+回车
+回车
+w
+
+
+#Manjaro 配置Samba 共享文件夹给Windows 访问
+sudo pacman -S manjaro-settings-samba
+将 path 中目录的权限设置为777
+chmod 777 /home/djy/date -R
+chmod 777 /home/djy/                 #这个不给权限会拒绝访问
+vim /etc/samba/smb.conf 
+[global]
+   workgroup = WORKGROUP
+   dns proxy = no
+   log file = /var/log/samba/%m.log
+   max log size = 1000
+   client max protocol = NT1
+   server role = standalone server
+   passdb backend = tdbsam
+   obey pam restrictions = yes
+   unix password sync = yes
+   passwd program = /usr/bin/passwd %u
+   passwd chat = *New*UNIX*password* %n\n *ReType*new*UNIX*password* %n\n *passwd:*all*authentication*tokens*updated*successfully*
+   pam password change = yes
+   map to guest = Bad Password
+   usershare allow guests = yes
+   name resolve order = lmhosts bcast host wins
+   security = user
+   guest account = nobody
+   usershare path = /var/lib/samba/usershare
+   usershare max shares = 100
+   usershare owner only = yes
+   force create mode = 0070
+   force directory mode = 0070
+
+[homes]
+   comment = Home Directories
+   browseable = no
+   read only = yes
+   create mask = 0700
+   directory mask = 0700
+   valid users = %S
+
+[printers]
+   comment = All Printers
+   browseable = no
+   path = /var/spool/samba
+   printable = yes
+   guest ok = no
+   read only = yes
+   create mask = 0700
+
+[print$]
+   comment = Printer Drivers
+   path = /var/lib/samba/printers
+   browseable = yes
+   read only = yes
+   guest ok = no
+   
+[djy]
+   path = /home/djy/Share
+   valid users = djy
+   public = no
+   writable = yes
+   printable = no
+   create mask = 0765
+   
+
+
+创建samba登陆用户
+
+sudo smbpasswd -a djy
+启用smaba 服务
+
+systemctl enable smb 
+systemctl start smb 
+
+
+
+Manjaro搭建无密访问samba服务器
+2） 然后新建一个，写入如下参数 vim /etc/samba/smb.conf，这里感谢Conanx给我的参考！
+[global]
+workgroup = WORKGROUP       
+#所要加入的工作组或者域
+netbios name = Manjaro      
+#用于在 Windows 网上邻居上显示的主机名
+security = user             
+#定义安全级别
+map to guest = bad user     
+#将所有samba系统主机所不能正确识别的用户都映射成guest用户
+dns proxy = no              
+#是否开启dns代理服务
+
+[misfit]                    
+#共享显示的目录名
+path = /home/misfit/code    
+#实际共享路径
+browsable = yes             
+#共享的目录是否让所有人可见
+writable = yes              
+#是否可写
+guest ok = yes              
+#是否允许匿名(guest)访问,等同于public
+create mask = 0777          
+#客户端上传文件的默认权限
+directory mask = 0777       
+#客户端创建目录的默认权限
+#注意共享文件在系统本地的权限不能低于以上设置的共享权限。
