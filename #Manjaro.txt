@@ -21,7 +21,8 @@ sudo vim /etc/ssh/sshd_config
 
 安装vim
 sudo pacman -S vim
-
+winows共享给Linux访问
+mount -t cifs -o username=administrator,password=admin217 //10.10.40.233/D /home/djy/windows
 mount挂载磁盘并设置开机自动mount
 fdisk -l                       # 查看可挂载的磁盘
 df -h                          # 查看已经挂载的磁盘
@@ -159,3 +160,39 @@ create mask = 0777
 directory mask = 0777       
 #客户端创建目录的默认权限
 #注意共享文件在系统本地的权限不能低于以上设置的共享权限。
+
+
+
+筛选最快的源
+sudo pacman-mirrors -i -c China -m rank
+http://mirrors.163.com/archlinux-cn/$arch
+-Syy是强制更新软件库目录。
+sudo pacman -Syy
+修改配置文件——在vim /etc/pacman.d  
+[archlinuxcn]
+SigLevel = Optional TrustedOnly
+Server = https://mirrors.aliyun.com/manjaro/
+然后，更新目录，并安装archlinuxcn-keyring
+pacman -Syy archlinuxcn-keyring
+
+pacman确实很好用，但是还有更好用的包管理工具，比如yay
+sudo pacman -S yay
+修改yay源
+yay --aururl "https://aur.tuna.tsinghua.edu.cn" --save
+yay -P -g
+
+一句代码搞定manjaro的时间校准!
+sudo timedatectl set-local-rtc 1
+
+安装中文输入法
+sudo pacman -S fcitx-im
+sudo pacman -Sy fcitx-configtool
+sudo pacman -S fcitx-sogoupinyin
+fcitx
+vim /etc/environment
+GTK_IM_MODULE=fcitx
+QT_IM_MODULE=fcitx
+XMODIFIERS=@im=fcitx
+之后注销重新登录即可正常使用输入法
+
+

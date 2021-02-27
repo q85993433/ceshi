@@ -13,7 +13,7 @@ done
 while true
 do
 echo "姐姐创业"
-sleep 86400
+sleep 86400       #一天有86400秒
 done
 
 nohup sh 脚本 &
@@ -25,7 +25,7 @@ nohup 用途:不挂断地运行命令
 while true
 do
 ifconfig eth0 up
-sleep 7200
+sleep 7200         #2 小时
 done
 
 
