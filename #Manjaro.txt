@@ -193,6 +193,6 @@ vim /etc/environment
 GTK_IM_MODULE=fcitx
 QT_IM_MODULE=fcitx
 XMODIFIERS=@im=fcitx
-之后注销重新登录即可正常使用输入法
+#之后注销重新登录即可正常使用输入法
 
 
