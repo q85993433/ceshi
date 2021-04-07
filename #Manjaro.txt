@@ -196,3 +196,8 @@ XMODIFIERS=@im=fcitx
 #之后注销重新登录即可正常使用输入法
 
 
+#关掉烦人的主板蜂鸣音beep声：
+xfce自带主板蜂鸣提示音，对于有的笔记本来说，主板峰鸣声音很大，关机警告和空退格时都会发出，很烦人。这样关闭：
+echo "blacklist pcspkr" > /etc/modprobe.d/nobeep.conf
+#完成后重启生效
+

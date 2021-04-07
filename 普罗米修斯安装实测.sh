@@ -56,7 +56,7 @@ vim /usr/local/Prometheus/prometheus.yml
     static_configs:
     - targets: ['192.168.0.102:9182']
 
-#改完配置文件后,重启服务
+#改完配置文件后,重启服务。是服务器重新运行这个命令，这个是很重要的
 pkill prometheus
 /usr/local/Prometheus/prometheus --config.file=/usr/local/Prometheus/prometheus.yml &
 
