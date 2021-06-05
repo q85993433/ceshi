@@ -9,3 +9,6 @@ v1:
 
 docker run --rm -itd -p 8834:8834 registry.cn-hangzhou.aliyuncs.com/steinven/nessus:v0.1
 访问https://ip:8834，账号：admin密码：admin
+
+开2个
+docker run --rm -itd -p 8833:8834 registry.cn-hangzhou.aliyuncs.com/steinven/nessus:v0.1
