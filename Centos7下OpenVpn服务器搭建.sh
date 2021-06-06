@@ -112,7 +112,7 @@ cp /etc/openvpn/client/easy-rsa/3.0.7/pki/private/ths.key .
 cd /etc/openvpn/
 vim server.conf 填入如下内容
 服务器端配置文件
-local 192.168.6.23		#填写自己的openvpn服务器ip地址，默认侦听服务器上所有的ip
+local 192.168.6.23		#填写自己的openvpn服务器局域网ip地址，默认侦听服务器上所有的ip
 port 11094				#侦听端口，默认为1194，据说网上会过滤1194端口流量，我这里修改为11094
 proto tcp				#端口协议，默认udp，开启tcp方便映射转发
 dev tun					#创建一个路由ip隧道,路由模式有tun/tap
@@ -176,7 +176,7 @@ https://build.openvpn.net/downloads/releases/openvpn-install-2.4.7-I607-Win10.ex
 client   
 proto tcp  
 dev tun    
-remote 192.168.6.23 11094
+remote 192.168.6.23 11094              #填写外网的地址
 ca ca.crt   
 cert ths.crt
 key ths.key      
