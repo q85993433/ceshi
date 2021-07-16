@@ -14,4 +14,4 @@ systemctl enable --now cockpit.socket
 systemctl status cockpit.socket
 
 端口为9090
-netstat -antlp
+netstat -tlnup
