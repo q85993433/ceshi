@@ -1,12 +1,13 @@
 zabbix 5.0 安装
 
-https://www.zabbix.com/cn/download?zabbix=5.0&os_distribution=centos&os_version=7&db=mysql&ws=apache
+
+
 先安装mysql 
 
 选择您Zabbix服务器的平台
 a. 安装 数据库
 产品手册
-# rpm -Uvh https://repo.zabbix.com/zabbix/5.0/rhel/7/x86_64/zabbix-release-5.0-1.el7.noarch.rpm
+# rpm -Uvh https://repo.zabbix.com/zabbix/5.4/rhel/7/x86_64/zabbix-release-5.4-1.el7.noarch.rpm
 # yum clean all
 b. Install Zabbix server and agent
 # yum install zabbix-server-mysql zabbix-agent
@@ -50,6 +51,8 @@ g. 启动Zabbix server和agent进程
 
 # systemctl restart zabbix-server zabbix-agent httpd rh-php72-php-fpm
 # systemctl enable zabbix-server zabbix-agent httpd rh-php72-php-fpm
+
+
 h. 配置Zabbix前端
 连接到新安装的Zabbix前端： http://server_ip_or_name/zabbix
 根据Zabbix文件里步骤操作： Installing frontend

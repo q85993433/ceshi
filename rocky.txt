@@ -1,0 +1,17 @@
+rocky
+
+安装完系统以后，一般我们会做一个系统更新，与CentOS 7不同的是，从CentOS 8开始yum命令已经变更为dnf，Rocky Linux 8 亦是如此
+
+ls -l /etc/yum.repos.d/
+更新系统
+dnf update
+
+在CentOS 8中采用cockpit服务可以打开Web管理控制台，Rocky Linux也是可以的，它不需要单独安装，默认已经集成，只需要启动对应服务即可。
+
+启用cockpit
+systemctl enable --now cockpit.socket
+
+systemctl status cockpit.socket
+
+端口为9090
+netstat -antlp

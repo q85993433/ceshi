@@ -37,6 +37,9 @@ ERROR 1819
 
 [root@localhost ~]# yum -y remove mysql57-community-release-el7-10.noarch
 此时才算真的完成了
+systemctl enable  mysqld.service
+
+
 
 CentOS 7下面的mysql的命令
 systemctl stop|start|status|restart mysql

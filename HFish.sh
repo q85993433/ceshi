@@ -32,3 +32,6 @@ or
 docker exec -it ID bash
 or
 docker exec -it ID sh
+
+
+可进入容器使用vi HFish/config.ini命令修改默认密码

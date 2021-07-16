@@ -3,7 +3,9 @@ CentOS 7
 必须语言英文
 Centos 7 而改为使用/etc/locale.conf这个来进行语言配置。使用vim命令进去，vim /etc/locale.conf，把zh_CN.UTF-8""替换成"en_US.UTF-8" 
 echo -e "export LC_ALL=en_US.UTF-8 \n export LANGUAGE=en_US.UTF-8" >> /etc/profile && source /etc/profile      重定向语言
-vi /etc/sysconfig/network-scripts/ifcfg-ens33
+
+
+vi /etc/sysconfig/network-scripts/ifcfg
 1）bootproto=static
 （2）onboot=yes
 （3）在最后加上几行，IP地址、子网掩码、网关、dns服务器（DNS可设可不设，我这里不设置）
@@ -26,20 +28,30 @@ ping www.baidu.com
 yum -y install wget      -y自动选择
 yum -y install vim wget lsof ntpdate
 
-wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+#CENTOS7 更换阿里yum
 
-或
+1、进入yum.repos.d，并备份
 
-curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+[root@node01 ~]# cd /etc/yum.repos.d/
+[root@node01 yum.repos.d]# cp CentOS-Base.repo CentOS-Base.repo.bak
 
-CentOS 7
+2、wget下载阿里yum源repo文件
 
-wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo
+[root@node01 yum.repos.d]# wget http://mirrors.aliyun.com/repo/Centos-7.repo
 
-4、清理缓存并生成新的缓存
+3、清理旧包
 
-yum clean all
-yum makecache 
+[root@node01 yum.repos.d]# yum clean all
+
+4、设置阿里云repo文件成为默认源
+
+[root@node01 yum.repos.d]# mv Centos-7.repo CentOS-Base.repo
+
+5、生成阿里云yum源缓存并更新yum源
+
+[root@node01 yum.repos.d]# yum makecache
+[root@node01 yum.repos.d]# yum update
+
 
 >>>关闭防火墙
 firewall-cmd --state   查看防火墙状态

@@ -3,7 +3,6 @@ wget https://github.com/timonwong/prometheus-webhook-dingtalk/releases/download/
 tar -zxf prometheus-webhook-dingtalk-0.3.0.linux-amd64.tar.gz -C /opt/
 mv /opt/prometheus-webhook-dingtalk-0.3.0.linux-amd64 /opt/prometheus-webhook-dingtalk
 
-2.钉钉创建机器人自定义告警关键词并获取token
 
 3.启动钉钉插件dingtalk
 vim /etc/systemd/system/prometheus-webhook-dingtalk.service
@@ -23,33 +22,30 @@ WantedBy=multi-user.target
 systemctl daemon-reload
 systemctl start prometheus-webhook-dingtalk
 ss -tnl | grep 8060
+systemctl enable prometheus-webhook-dingtalk
 
 #alertmanager系列：alertmanager安装配置
 wget https://github.com/prometheus/alertmanager/releases/download/v0.21.0/alertmanager-0.21.0.linux-amd64.tar.gz
 tar zxvf alertmanager-0.21.0.linux-amd64.tar.gz
-vi /opt/alertmanager/alertmanager.yml
-
-global:
-  smtp_smarthost: 'smtp.163.com:25'
-  smtp_from: 'xxx@163.com'
-  smtp_auth_username: '163user'
-  smtp_auth_password: '163passwd'
-  smtp_require_tls: false
-
-route:
-  group_by: ['severity']  # 根据报警规则的 rules文件 severity标签进行分类
-  group_wait: 10s  # 组告警等待时间。也就是告警产生后等待10s，如果有同组告警一起发出
-  group_interval: 10s # 两组告警的间隔时间
-  repeat_interval: 5h ## 重复告警的间隔时间，减少相同邮件的发送频率
-  receiver: 'webhook'
-receivers: # 接受者，可以是邮箱，wechat或者web接口等等
-- name: 'webhook'
-  webhook_configs:
-  - url: http://127.0.0.1:8060/dingtalk/ops_dingding/send
-    send_resolved: true
+vim/opt/alertmanager/alertmanager.yml
+#vim /usr/local/prometheus/alertmanager-0.21.0.linux-amd64/alertmanager.yml
+  global:
+    resolve_timeout: 1m
+  route:
+    group_by: ['severity']  # 根据报警规则的 rules文件 severity标签进行分类
+    group_wait: 10s  # 组告警等待时间。也就是告警产生后等待10s，如果有同组告警一起发出
+    group_interval: 10s # 两组告警的间隔时间
+    repeat_interval: 5h ## 重复告警的间隔时间，减少相同邮件的发送频率
+    receiver: 'webhook'
+  receivers: # 接受者，可以是邮箱，wechat或者web接口等等
+  - name: 'webhook'
+    webhook_configs:
+    - url: http://127.0.0.1:8060/dingtalk/ops_dingding/send
+      send_resolved: true
 
 #命令行启动
 cd /opt/alertmanager/
+#cd /usr/local/prometheus/alertmanager-0.21.0.linux-amd64/
 ./alertmanager --config.file=alertmanager.yml &
 netstat -anput | grep 9093
 

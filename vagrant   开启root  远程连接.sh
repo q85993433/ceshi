@@ -5,6 +5,7 @@
 # vim /etc/ssh/sshd_config
 修改参数为
 PermitRootLogin yes     去掉#
+加上
 PasswordAuthentication yes
 使用之前的非ROOT账号密码链接服务器
 临时切换ROOT

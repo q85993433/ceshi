@@ -161,25 +161,31 @@ directory mask = 0777
 #客户端创建目录的默认权限
 #注意共享文件在系统本地的权限不能低于以上设置的共享权限。
 
+1.配置镜像源:
 
-
-筛选最快的源
 sudo pacman-mirrors -i -c China -m rank
-http://mirrors.163.com/archlinux-cn/$arch
--Syy是强制更新软件库目录。
-sudo pacman -Syy
-修改配置文件——在vim /etc/pacman.d  
+2.设置 archlinuxcn 源,antergos源,arch4edu源:
+sudo vim /etc/pacman.conf
+
 [archlinuxcn]
 SigLevel = Optional TrustedOnly
-Server = https://mirrors.aliyun.com/manjaro/
-然后，更新目录，并安装archlinuxcn-keyring
-pacman -Syy archlinuxcn-keyring
+#中科大源
+Server = https://mirrors.ustc.edu.cn/archlinuxcn/$arch
 
-pacman确实很好用，但是还有更好用的包管理工具，比如yay
-sudo pacman -S yay
-修改yay源
-yay --aururl "https://aur.tuna.tsinghua.edu.cn" --save
-yay -P -g
+3.更新源列表
+
+sudo pacman-mirrors -g
+4.更新pacman数据库并全面更新系统
+sudo pacman -Sy
+sudo pacman -Syyu
+5.防止PGP签名错误
+
+
+sudo pacman -S archlinuxcn-keyring
+sudo pacman -S antergos-keyring
+
+
+
 
 一句代码搞定manjaro的时间校准!
 sudo timedatectl set-local-rtc 1

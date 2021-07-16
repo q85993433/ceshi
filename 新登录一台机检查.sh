@@ -37,7 +37,7 @@ systemctl stop nginx.service #结束nginx
 systemctl restart nginx.service #重启nginx
 systemctl status nginx.service #查看指定服务项状态
 systemctl list-dependencies <服务项名称> #查看服务项的依赖关系
-systemctl list-units --type=service --state=failed  #查看出错的服务
+systemctl list-units --state failed  #查看出错的服务
 systemctl reload <服务项名称> #重新读取配置文件 如果该服务不能重启，但又必须使用新的配置，这条命令会很有用
 #服务文件的位置
 #我们自己建立的服务文件直接放在 /etc/systemd/system/ 里面就好了。服务文件要使用 .service 后缀名。
