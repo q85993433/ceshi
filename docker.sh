@@ -30,3 +30,10 @@ docker update --restart=always 07fb7442f813
 
 docker restart jenkins    重启
 
+docker run 的时候加入    -e TZ="Asia/Shanghai"
+
+#查询当前容器：
+docker container ls -all
+#删除当前容器：
+docker container rm ID
+
