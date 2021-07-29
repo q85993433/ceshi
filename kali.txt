@@ -1,0 +1,17 @@
+kali 
+linux 中ip 显示：Note: Host seems down. If it is really up, but blocking our ping probes,
+注：
+
+-Pn：将所有主机视为联机-跳过主机发现
+-sS / sT / sA / sW / sM：TCP SYN / Connect（）/ ACK / Window / Maimon扫描
+
+nmap -Pn -sS ip
+kali linux 中关闭防火墙：
+先安装： apt-get install ufw
+关闭防火墙： ufw disable
+开启防火墙： ufw enable
+
+
+2021.1后的kali版本创建用户都是非root用户，当我们用非root用户操作时，会提示权限不足，这时我们需要root账号，启用root账号操作如下：
+
+在当前账号下，执行命令： sudo passwd root，然后输入当前用户的密码，后面就会提示输入root的密码

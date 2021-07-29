@@ -1,4 +1,9 @@
 #CENTOS7 更换阿里yum
+curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo
+
+
+
 
 1、进入yum.repos.d，并备份
 
