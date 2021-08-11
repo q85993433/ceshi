@@ -38,6 +38,7 @@ sudo /bin/systemctl start grafana-server.service
 wget https://github.com/prometheus/node_exporter/releases/download/v0.17.0/node_exporter-0.17.0.linux-amd64.tar.gz
 tar -xvf node_exporter-0.17.0.linux-amd64.tar.gz -C /usr/local/
 nohup /usr/local/node_exporter-0.17.0.linux-amd64/node_exporter &     #不停运行
+/usr/local/node_exporter-0.17.0.linux-amd64/node_exporter       #单次运行
 #服务器添加普罗米修斯配置文件添加监控项
 vim /usr/local/prometheus/prometheus.yml
 

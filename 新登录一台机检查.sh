@@ -6,7 +6,7 @@ uname -r   #查内核版本
 uptime #负载
 df -h            #查磁盘占用的空间 查看当前文件系统信息，包括容量大小、使用情况、挂载点等
 fdisk -l     #查看当前的磁盘分区信息(主要是分区表信息)
-hostnamectl #主机名     
+hostnamectl #主机名     永久修改主机名：hostnamectl set-hostname永久主机名 是对/etc/hostname文件的内容进行修改
 临时修改主机名：hostname #临时主机名
 
 #永久修改主机名：hostnamectl #永久主机名    是对/etc/hostname文件的内容进行修改
@@ -17,7 +17,7 @@ pkill -kill  -t pts/0   #踢掉一个从某个终端连上的用户
 last  #命令用于查看当前和过去登录系统用户的相关信息
 ifconfig #网络
 lsof -i     #端口              lsof-i:22   22端口
-netstat -anp    #网络连接
+netstat -anp    #网络连接 yum install -y net-tools
 rpm -qa #查看安装软件
 ps -ef   ps aux    systemctl #显示进程和服务
 ps -ef | grep        #查看某个程序的进程
