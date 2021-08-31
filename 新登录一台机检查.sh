@@ -68,5 +68,7 @@ netstat -tlnup|grep 7002
 netstat -tlnup
 
 
+按照名字查找 find -name 文件名称
+find / -name httpd.conf
 
 
