@@ -15,3 +15,32 @@ systemctl status cockpit.socket
 
 端口为9090
 netstat -tlnup
+
+
+如果是Centos 8，则需要用以下命令：
+
+nmcli c reload
+
+nmcli c reload +网卡名
+
+
+安装就自动开启root  SSH
+
+更换dnf源 
+这里以替换成上海交通大学源为例：
+sed -e 's|^mirrorlist=|#mirrorlist=|g' \
+    -e 's|^#baseurl=http://dl.rockylinux.org/$contentdir|baseurl=https://mirrors.sjtug.sjtu.edu.cn/rocky|g' \
+    -i.bak \
+    /etc/yum.repos.d/Rocky-*.repo
+
+# 生成缓存
+dnf makecache
+恢复官方源：
+
+sed -e 's|^#mirrorlist=|mirrorlist=|g' \
+    -e 's|^baseurl=https://mirrors.sjtug.sjtu.edu.cn/rocky|#baseurl=http://dl.rockylinux.org/$contentdir|g' \
+    -i.bak \
+    /etc/yum.repos.d/Rocky-*.repo
+
+# 生成缓存
+dnf makecache

@@ -1,4 +1,5 @@
 Prometheus 通过 consul 实现自动服务发现
+#Prometheus 安装CONSUL
 #安装1
 wget https://releases.hashicorp.com/consul/1.6.1/consul_1.6.1_linux_amd64.zip
 unzip consul_1.6.1_linux_amd64.zip
