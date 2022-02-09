@@ -72,3 +72,5 @@ find / -name httpd.conf
 
 6.查CPU 型号
 dmidecode -s processor-version
+
+7.
