@@ -7,7 +7,7 @@ uptime #负载
 df -h            #查磁盘占用的空间 查看当前文件系统信息，包括容量大小、使用情况、挂载点等
 fdisk -l     #查看当前的磁盘分区信息(主要是分区表信息)
 hostnamectl #主机名     永久修改主机名：hostnamectl set-hostname永久主机名 是对/etc/hostname文件的内容进行修改
-临时修改主机名：hostname #临时主机名
+临时修改主机名:hostname #临时主机名
 
 #永久修改主机名：hostnamectl #永久主机名    是对/etc/hostname文件的内容进行修改
 who   #谁登录
@@ -42,12 +42,12 @@ systemctl reload <服务项名称> #重新读取配置文件 如果该服务不�
 #服务文件的位置
 #我们自己建立的服务文件直接放在 /etc/systemd/system/ 里面就好了。服务文件要使用 .service 后缀名。
 #日 志 文 件 说    明 
-/var/log/messages 系统启动后的信息和错误日志，是Red Hat Linux中最常用的日志之一 
-/var/log/secure 与安全相关的日志信息 
-/var/log/maillog 与邮件相关的日志信息 
-/var/log/cron 与定时任务相关的日志信息 
-/var/log/spooler 与UUCP和news设备相关的日志信息 
-/var/log/boot.log 守护进程启动和停止相关的日志消息
+/var/log/messages #系统启动后的信息和错误日志，是Red Hat Linux中最常用的日志之一 
+/var/log/secure #与安全相关的日志信息 
+/var/log/maillog #与邮件相关的日志信息 
+/var/log/cron #与定时任务相关的日志信息 
+/var/log/spooler #与UUCP和news设备相关的日志信息 
+/var/log/boot.log #守护进程启动和停止相关的日志消息
 
 #centos开机自动启动命令
 #在centos7中,/etc/rc.d/rc.local文件的权限被降低了,没有执行权限,需要给它添加可执行权限。
