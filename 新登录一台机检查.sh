@@ -67,9 +67,8 @@ netstat -tlnup|grep 7002
 4.查看所有监听端口号
 netstat -tlnup
 
-
-按照名字查找 find -name 文件名称
+5.按照名字查找 find -name 文件名称
 find / -name httpd.conf
 
-查CPU 型号
+6.查CPU 型号
 dmidecode -s processor-version
