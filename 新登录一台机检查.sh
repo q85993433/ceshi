@@ -8,7 +8,7 @@ df -h            #查磁盘占用的空间 查看当前文件系统信息，包�
 fdisk -l     #查看当前的磁盘分区信息(主要是分区表信息)
 hostnamectl #主机名     永久修改主机名：hostnamectl set-hostname永久主机名 是对/etc/hostname文件的内容进行修改
 临时修改主机名:hostname #临时主机名
-
+history  #查看历史命令
 #永久修改主机名：hostnamectl #永久主机名    是对/etc/hostname文件的内容进行修改
 who   #谁登录
 grep sh$ /etc/passwd   #谁有shell访问劝
